@@ -1,66 +1,65 @@
 @extends('layouts.user')
     
-@section('styles')
-    @vite('resources/css/styles.css')
-@endsection
-
 @section('content')
-     <div class="emergency-header text-center">
-        <div class="container">
-            <h1 class="display-12 fw-bold">WELCOME</h1>
-            <p class="lead">GUIDANCE OFFICE SERVICES</p>
-        </div>
+<div class="hero-section">
+    <div class="hero-content fade-in">
+        <h1 class="hero-title">Welcome to Guidance Office</h1>
+        <p class="hero-subtitle">Your safe space for support, guidance, and mental wellness</p>
     </div>
+</div>
 
-
-     <div class="row mb-5">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                      
-                        <div class="row">
-                           
-                            <div class="col-md-4 mb-4">
-                                <div class="card teacher-card">
-                                    <div class="teacher-avatar">
-                                        <i class="fas fa-bell"></i>
-                                    </div>
-                                    <h4>SERVICES</h4>
-                                    <p class="text-muted"><a class="btn btn-primary" href="{{ route('user.services') }}">View</a></p>
-                                </div>
-                            </div>
-
-
-                            
-                            <div class="col-md-4 mb-4">
-                                <div class="card teacher-card">
-                                    <div class="teacher-avatar">
-                                        <i class="fas fa-bullhorn"></i>
-                                    </div>
-                                    <h4>e-Hayag</h4>
-                                    <p class="text-muted"><a class="btn btn-primary" href="{{ route('user.freedomwall.add') }}">View</a></p>
-                                </div>
-                            </div>
-
-                                                        <div class="col-md-4 mb-4">
-                                <div class="card teacher-card">
-                                    <div class="teacher-avatar">
-                                        <i class="fas fa-phone"></i>
-                                    </div>
-                                    <h4>EMERGENCY HOTLINE</h4>
-                                    <p class="text-muted"><a class="btn btn-primary" href="{{ route('user.hotline') }}">View</a></p>
-                                </div>
-                            </div>
-
-
+<div class="main-content">
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title slide-up">Our Services</h2>
+            <div class="grid grid-3">
+                <div class="card fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-concierge-bell"></i>
                         </div>
+                        <h3 class="service-title">Guidance Services</h3>
+                        <p class="mb-3">Access comprehensive counseling and academic guidance services tailored to your needs.</p>
+                        <a href="{{ route('user.services') }}" class="btn btn-primary">Explore Services</a>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="service-title">e-Hayag</h3>
+                        <p class="mb-3">Express your thoughts and feelings in a safe, anonymous space where you can be heard.</p>
+                        <a href="{{ route('user.freedomwall.add') }}" class="btn btn-primary">Share Your Thoughts</a>
+                    </div>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3 class="service-title">Emergency Hotlines</h3>
+                        <p class="mb-3">24/7 access to emergency contact numbers for immediate assistance and support.</p>
+                        <a href="{{ route('user.hotline') }}" class="btn btn-primary">View Hotlines</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        
-
+        <section class="section">
+            <div class="card slide-up">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Need Immediate Help?</h3>
+                    <p class="mb-4">If you're experiencing a crisis or need immediate support, don't hesitate to reach out. Our emergency hotlines are available 24/7.</p>
+                    <a href="{{ route('user.hotline') }}" class="btn btn-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Emergency Contact
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 @endsection
-
-
