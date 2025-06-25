@@ -8,7 +8,7 @@
      <div class="emergency-header text-center">
         <div class="container">
             <h1 class="display-12 fw-bold">WELCOME</h1>
-            <p class="lead">GUIDANCE OFFICE</p>
+            <p class="lead">GUIDANCE OFFICE SERVICES</p>
         </div>
     </div>
 
