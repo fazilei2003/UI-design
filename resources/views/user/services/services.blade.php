@@ -1,114 +1,128 @@
 @extends('layouts.user')
     
-@section('styles')
-    @vite('resources/css/styles.css')
-@endsection
 @section('content')
+<div class="hero-section">
+    <div class="hero-content fade-in">
+        <h1 class="hero-title">Guidance Services</h1>
+        <p class="hero-subtitle">Comprehensive support for your academic and personal growth</p>
+    </div>
+</div>
 
-<div class="container my-5">
-
-    <!-- Services Offered Section -->
-        <div class="card mb-5 p-4">
-            <h2 class="mb-4 text-primary">Services Offered</h2>
-            <div class="row" id="services-list">
+<div class="main-content">
+    <div class="container">
+        <!-- Services Offered Section -->
+        <section class="section">
+            <h2 class="section-title">Services Offered</h2>
+            <div class="grid grid-2" id="services-list">
                 @foreach($services as $index => $service)
-                    <div class="col-md-4 mb-4 {{ $index >= 3 ? 'hidden-service' : '' }}">
-                        <a href="{{ route('user.services.details', $service->id) }}" class="text-primary">
-                            <div class="card p-3 h-100">
-                                <h4 class="text-center">{{ $service->name }}</h4>
-                                <p>{{ Str::limit(strip_tags($service->description), 120, '......') }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-
-            @if(count($services) > 3)
-                <div class="text-center mt-3">
-                    <button id="toggle-services-btn" class="btn btn-primary">Show All Services</button>
-                </div>
-            @endif
-        </div>
-
-
-    <!-- Counselor Information Section -->
-        <div class="card mb-5 p-4">
-        <h2 class="mb-4 text-primary"><center>Counselor Information</h2></center>
-        
-        <div id="counselors-container" style="display: none;">
-            <div class="row">
-                @foreach($counselors as $counselor)
-                    <div class="col-md-4 mb-4">
-                        <div class="card p-3 h-100 text-center">
-                            <a href="{{ route('user.counselors.details', $counselor->id) }}" class="text-decoration-none text-dark">
-                                <img src="{{ asset('storage/' . $counselor->image) }}" alt="{{ $counselor->name }}" class="teacher-avatar mb-3">
-                                <h4>{{ $counselor->name }}</h4>
-                                <p>{{ $counselor->position }}</p>
-                                <p>{{ $counselor->college }}</p>
+                    <div class="card fade-in {{ $index >= 4 ? 'hidden-service' : '' }}" style="{{ $index >= 4 ? 'display: none;' : '' }}">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ $service->name }}</h3>
+                            <p class="mb-3">{{ Str::limit(strip_tags($service->description), 150, '...') }}</p>
+                            <a href="{{ route('user.services.details', $service->id) }}" class="btn btn-primary">
+                                Learn More <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
                 @endforeach
             </div>
-        </div>
 
-        <div class="text-center mt-3">
-            <button id="toggle-counselors-btn" class="btn btn-primary">Meet our Counselors</button>
-        </div>
-    </div>
-
-
-    <!-- Consultation Links Section -->
-    <div class="card p-4">
-        <h2 class="mb-4 text-primary">Consultation Links</h2>
-        <div class="row justify-content-center">
-            @foreach($consultations as $consultation)
-                <div class="col-md-6 mb-2">
-                    <div class="consultation-link">
-                        <h4>{{ $consultation->name }}</h4>
-                        <p>{{ $consultation->description }}</p>
-                        <a href="{{ $consultation->request_link }}" target="_blank" class="btn btn-primary">
-                            Request Here <i class="fas fa-external-link-alt ml-2"></i>
-                        </a>
-                    </div>
+            @if(count($services) > 4)
+                <div class="text-center mt-4">
+                    <button id="toggle-services-btn" class="btn btn-secondary">Show All Services</button>
                 </div>
-            @endforeach
-        </div>
-    </div>
+            @endif
+        </section>
 
+        <!-- Counselor Information Section -->
+        <section class="section">
+            <h2 class="section-title">Meet Our Counselors</h2>
+            
+            <div id="counselors-container" style="display: none;">
+                <div class="grid grid-3">
+                    @foreach($counselors as $counselor)
+                        <div class="card fade-in">
+                            <div class="card-body text-center">
+                                <div class="service-icon mb-3">
+                                    @if($counselor->image)
+                                        <img src="{{ asset('storage/' . $counselor->image) }}" alt="{{ $counselor->name }}" 
+                                             style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                                    @else
+                                        <i class="fas fa-user-tie"></i>
+                                    @endif
+                                </div>
+                                <h3 class="card-title">{{ $counselor->name }}</h3>
+                                <p class="text-muted mb-2">{{ $counselor->position }}</p>
+                                <p class="text-muted mb-3">{{ $counselor->college }}</p>
+                                <a href="{{ route('user.counselors.details', $counselor->id) }}" class="btn btn-primary">
+                                    View Profile
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="toggle-counselors-btn" class="btn btn-secondary">Meet Our Team</button>
+            </div>
+        </section>
+
+        <!-- Consultation Links Section -->
+        <section class="section">
+            <h2 class="section-title">Request Consultation</h2>
+            <div class="grid grid-2">
+                @foreach($consultations as $consultation)
+                    <div class="card slide-up">
+                        <div class="card-body text-center">
+                            <div class="service-icon mb-3">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h3 class="card-title">{{ $consultation->name }}</h3>
+                            <p class="mb-4">{{ $consultation->description }}</p>
+                            <a href="{{ $consultation->request_link }}" target="_blank" class="btn btn-primary">
+                                Request Consultation <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+    </div>
 </div>
 @endsection
 
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const btn = document.getElementById('toggle-services-btn');
+        // Services toggle
+        const servicesBtn = document.getElementById('toggle-services-btn');
         const hiddenServices = document.querySelectorAll('.hidden-service');
 
-        btn.addEventListener('click', function () {
-            const isHidden = hiddenServices[0].style.display === 'none' || hiddenServices[0].style.display === '';
+        if (servicesBtn) {
+            servicesBtn.addEventListener('click', function () {
+                const isHidden = hiddenServices[0].style.display === 'none';
 
-            hiddenServices.forEach(service => {
-                service.style.display = isHidden ? 'block' : 'none';
+                hiddenServices.forEach(service => {
+                    service.style.display = isHidden ? 'block' : 'none';
+                });
+
+                servicesBtn.textContent = isHidden ? 'Show Less' : 'Show All Services';
             });
+        }
 
-            btn.textContent = isHidden ? 'Show Less' : 'Show All Services';
-        });
-    });
+        // Counselors toggle
+        const counselorsBtn = document.getElementById('toggle-counselors-btn');
+        const counselorsContainer = document.getElementById('counselors-container');
 
-
-    /* COUNSELOR  */
-     document.addEventListener('DOMContentLoaded', function () {
-        const btn = document.getElementById('toggle-counselors-btn');
-        const container = document.getElementById('counselors-container');
-
-        btn.addEventListener('click', function () {
-            if (container.style.display === 'none' || container.style.display === '') {
-                container.style.display = 'block';
-                btn.style.display = 'none'; // hide the button after showing counselors
-            }
-        });
+        if (counselorsBtn) {
+            counselorsBtn.addEventListener('click', function () {
+                if (counselorsContainer.style.display === 'none') {
+                    counselorsContainer.style.display = 'block';
+                    counselorsBtn.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
 @endsection
-

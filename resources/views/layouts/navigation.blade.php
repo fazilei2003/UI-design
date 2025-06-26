@@ -1,126 +1,78 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+<nav class="admin-header">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="logo">NU</div>
+                    <div style="color: white; font-weight: 600;">
+                        Admin Panel
+                    </div>
+                </div>
+
+                <div class="admin-nav" style="border-radius: 25px; padding: 0.5rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            Dashboard
+                        </a>
+                        @can('allow_admin')
+                        <a href="{{ route('admin.hotline.dashboard') }}" class="nav-link {{ request()->routeIs('admin.hotline.*') ? 'active' : '' }}">
+                            Hotlines
+                        </a>
+                        <a href="{{ route('admin.consultation.dashboard') }}" class="nav-link {{ request()->routeIs('admin.consultation.*') ? 'active' : '' }}">
+                            Consultation
+                        </a>
+                        <a href="{{ route('admin.services.dashboard') }}" class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                            Services
+                        </a>
+                        <a href="{{ route('admin.counselor.dashboard') }}" class="nav-link {{ request()->routeIs('admin.counselors.*') ? 'active' : '' }}">
+                            Counselors
+                        </a>
+                        <a href="{{ route('admin.quote.index') }}" class="nav-link {{ request()->routeIs('admin.quote.*') ? 'active' : '' }}">
+                            Quotes
+                        </a>
+                        <a href="{{ route('admin.freedomwall.freedomwall') }}" class="nav-link {{ request()->routeIs('admin.freedomwall.*') ? 'active' : '' }}">
+                            e-Hayag
+                        </a>
+                        @endcan
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: relative;">
+                <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer;" onclick="toggleDropdown()">
+                    <span style="color: white;">{{ Auth::user()->name }}</span>
+                    <div style="color: white;">▼</div>
+                </div>
+                
+                <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); min-width: 200px; z-index: 1000;">
+                    <a href="{{ route('profile.edit') }}" style="display: block; padding: 1rem; color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0;">
+                        Profile
                     </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @can('allow_admin')
-                    <x-nav-link :href="route('admin.hotline.dashboard')" :active="request()->routeIs('admin.hotline.*')">
-                        {{ __('Hotlines') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.consultation.dashboard')" :active="request()->routeIs('admin.consultation.*')">
-                        {{ __('Consultation') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.services.dashboard')" :active="request()->routeIs('admin.services.*')">
-                        {{ __('Services') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.counselor.dashboard')" :active="request()->routeIs('admin.counselors.*')">
-                        {{ __('Counselors') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.quote.index')" :active="request()->routeIs('admin.quote.*')">
-                        {{ __('Quotes') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.freedomwall.freedomwall')" :active="request()->routeIs('admin.freedomwall.*')">
-                        {{ __('e-Hayag') }}
-                    </x-nav-link>
-
-                    @endcan
-                </div>
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" style="width: 100%; text-align: left; padding: 1rem; background: none; border: none; color: #333; cursor: pointer;">
+                            Log Out
                         </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </nav>
+
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    const trigger = event.target.closest('[onclick="toggleDropdown()"]');
+    
+    if (!trigger && dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+    }
+});
+</script>
